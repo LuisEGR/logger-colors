@@ -1,0 +1,15 @@
+{
+  "name": "logger-colors",
+  "version": "1.0.1",
+  "description": "Print logs with color and save them to a file at the same time",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luis E. Gonzalez R.",
+  "license": "ISC",
+  "dependencies": {
+    "center-align": "^1.0.1",
+    "moment": "^2.24.0"
+  }
+}
