@@ -84,7 +84,13 @@ module.exports = class Logger {
 
         if (!fs.existsSync(this.options.dirLogs)) {
             if (this.options.createDirIfNotExists) {
-                fs.mkdirSync(this.options.dirLogs);
+                try{
+                    fs.mkdirSync(this.options.dirLogs);
+                } catch(e){
+                    console.error("Error creating logs directory");
+                    console.error(e);
+                    return;
+                }
             }
         }
 
