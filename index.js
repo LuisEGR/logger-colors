@@ -77,6 +77,7 @@ module.exports = class Logger {
     }
 
     writeToFile(text) {
+        console.log('this:', this);
         if(!this.options.writeToFile) return;
         let logStr = text + '\n';
 
