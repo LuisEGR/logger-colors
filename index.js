@@ -1,6 +1,7 @@
 'use strict';
 
-const moment = require('moment');
+// const moment = require('moment');
+const moment = require('moment-timezone');
 const center = require('center-align');
 const fs = require('fs');
 
@@ -11,11 +12,12 @@ module.exports = class Logger {
             writeToFile: false,
             dirLogs: '/logs',
             extensionLogFile: 'txt',
-            timeUTCOffset: null,
+            timeZone: 'America/Mexico_City',
             timeFormat: null,
+            languaje: 'es',
             centerColumns: 50,
             createDirIfNotExists: true,
-            fileName: 'logs',
+            fileNameSuffix: '',
         };
         this.options = {
             ...this.defaultOptions,
@@ -30,6 +32,8 @@ module.exports = class Logger {
         this.c_cyan = '\x1b[36m';
         this.c_white = '\x1b[37m';
         this.c_default = '\x1b[0m';
+
+        moment.locale(this.options.languaje.toLowerCase());
     }
 
     info(text, _center) {
@@ -77,11 +81,10 @@ module.exports = class Logger {
     }
 
     writeToFile(text) {
-        console.log('this:', this);
-        if(!this.options.writeToFile) return;
+        if(!this.options.writeToFile||this.options.writeToFile=='0') return;
         let logStr = text + '\n';
 
-        let fileName = this.options.fileName + '.' + this.options.extensionLogFile
+        let fileName = moment().format('YYYY-MM-DD') + this.options.fileNameSuffix +'.' + this.options.extensionLogFile
 
         if (!fs.existsSync(this.options.dirLogs)) {
             if (this.options.createDirIfNotExists) {
@@ -101,9 +104,9 @@ module.exports = class Logger {
 
     getTime() {
         let f = this.options.timeFormat || 'DD-MM-YYYY HH:mm:ss.SSS';
-        let u = this.options.timeUTCOffset || '-0000';
-        return this.c_gray + '[' + moment()
-            .utcOffset(u)
+        let tz = this.options.timeZone||'America/Mexico_City';
+        let m = moment().tz(tz)
+        return this.c_gray + '[' + m
             .format(f) + ']' + this.c_default;
     }
 
