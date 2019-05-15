@@ -1,6 +1,6 @@
 {
   "name": "logger-colors",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Print logs with color and save them to a file at the same time",
   "main": "index.js",
   "scripts": {
