@@ -110,4 +110,25 @@ module.exports = class Logger {
             .format(f) + ']' + this.c_default;
     }
 
+    
+    smallJSON(key, value) {
+        if (Array.isArray(value)) {
+          if (value.length > 5) {
+            value = value.slice(1, 10);
+          }
+          return value;
+        }
+      
+        if (typeof value === 'string' && key != 'url') {
+          if (value.length > 100) {
+            let val = '';
+            val += value.substr(0, 15);
+            val += '...';
+            val += value.substr(-15, 15);
+            return val;
+          }
+        }
+        return value;
+    }
+
 }
