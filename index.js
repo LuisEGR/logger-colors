@@ -76,7 +76,8 @@ module.exports = class Logger {
 
     write(text) {
         // console.log('text:', text);
-        console.log.apply(console, [text]);
+        if(process.env.HIDE_LOGS||true)
+            console.log.apply(console, [text]);
         this.writeToFile(text);
     }
 
