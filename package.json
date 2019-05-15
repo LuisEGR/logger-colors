@@ -1,6 +1,6 @@
 {
   "name": "logger-colors",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Print logs with color and save them to a file at the same time",
   "main": "index.js",
   "scripts": {
@@ -12,5 +12,8 @@
     "center-align": "^1.0.1",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25"
+  },
+  "publishConfig": {
+    "registry": "http://nexus-0.dev.openshift.multivaloresgf.local:8081/repository/npm-hosted/"
   }
 }
