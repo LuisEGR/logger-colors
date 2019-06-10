@@ -69,7 +69,7 @@ module.exports = class Logger {
         }
         return [
             this.getTime(),
-            getOperationId(),
+            this.getOperationId(),
             color,
             t,
             this.c_default
