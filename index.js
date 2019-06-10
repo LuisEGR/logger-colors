@@ -18,6 +18,7 @@ module.exports = class Logger {
             centerColumns: 50,
             createDirIfNotExists: true,
             fileNameSuffix: '',
+            operationId: null,
         };
         this.options = {
             ...this.defaultOptions,
@@ -68,6 +69,7 @@ module.exports = class Logger {
         }
         return [
             this.getTime(),
+            getOperationId(),
             color,
             t,
             this.c_default
@@ -111,6 +113,13 @@ module.exports = class Logger {
             .format(f) + ']' + this.c_default;
     }
 
+    getOperationId(){
+        if(this.options.operationId){
+            return '['+this.options.operationId+']'; 
+        } else {
+            return '';
+        }
+    }
     
     smallJSON(key, value) {
         if (Array.isArray(value)) {
