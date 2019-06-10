@@ -115,7 +115,7 @@ module.exports = class Logger {
 
     getOperationId(){
         if(this.options.operationId){
-            return '['+this.options.operationId+']'; 
+            return this.c_gray + '['+this.options.operationId+']' + this.c_default; 
         } else {
             return '';
         }
