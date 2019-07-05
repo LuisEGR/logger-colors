@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var index_1 = require("./index");
+var myLogger = new index_1.Logger();
+myLogger.info("INFO");
+myLogger.info("INFO Center", true);
+myLogger.error("Error", true);
+myLogger.success("Success", true);
+myLogger.warn("Warn", true);
+myLogger.magenta("a" + index_1.LColor.c_green + "g" + index_1.LColor.c_yellow + "d", true);
