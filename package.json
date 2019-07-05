@@ -1,25 +1,26 @@
 {
-  "name": "logger-colors",
-  "version": "1.0.11",
-  "description": "Print logs with color and save them to a file at the same time",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
-  },
-  "author": "Luis E. Gonzalez R.",
-  "license": "ISC",
-  "dependencies": {
-    "@types/center-align": "^1.0.0",
-    "@types/moment-timezone": "^0.5.12",
-    "@types/node": "^12.0.12",
-    "center-align": "^1.0.1",
-    "moment": "^2.24.0",
-    "moment-timezone": "^0.5.25",
-    "typescript": "^3.5.2"
-  },
-  "publishConfig": {
-    "registry": "http://nexus-0.dev.openshift.multivaloresgf.local:8081/repository/npm-hosted/"
-  }
+    "name": "logger-colors",
+    "version": "1.0.11",
+    "description": "Print logs with color and save them to a file at the same time",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc"
+    },
+    "author": "Luis E. Gonzalez R.",
+    "license": "ISC",
+    "dependencies": {
+        "center-align": "^1.0.1",
+        "moment-timezone": "^0.5.25"
+    },
+    "devDependencies": {
+        "@types/center-align": "^1.0.0",
+        "@types/moment-timezone": "^0.5.12",
+        "@types/node": "^12.0.12",
+        "typescript": "^3.5.2"
+    },
+    "publishConfig": {
+        "registry": "http://nexus-0.dev.openshift.multivaloresgf.local:8081/repository/npm-hosted/"
+    }
 }
