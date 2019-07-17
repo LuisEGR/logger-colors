@@ -6,7 +6,9 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc"
+        "build": "tsc",
+        "publish:nexus-local": "npm-publish-nexus --domain=http://localhost:8081 --repo=npm-hosted",
+        "publish:nexus-mtv": "npm-publish-nexus --domain=http://nexus-0.dev.openshift.multivaloresgf.local:8081 --repo=npm-hosted"
     },
     "author": "Luis E. Gonzalez R.",
     "license": "ISC",
@@ -18,9 +20,7 @@
         "@types/center-align": "^1.0.0",
         "@types/moment-timezone": "^0.5.12",
         "@types/node": "^12.0.12",
+        "npm-publish-nexus": "^0.1.4",
         "typescript": "^3.5.2"
-    },
-    "publishConfig": {
-        "registry": "http://nexus-0.dev.openshift.multivaloresgf.local:8081/repository/npm-hosted/"
     }
 }
