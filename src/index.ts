@@ -2,17 +2,23 @@ import moment from 'moment-timezone';
 import center from 'center-align';
 import fs from 'fs';
 
+
+interface writeToFileOptions {
+    enabled:boolean,
+    preserveColors?:boolean,
+    fileName: string,
+    fileExtension?: string,
+    directory?: string,
+}
+
 export interface LoggerOptions {
-    writeToFile: boolean,
-    dirLogs: string | null | undefined,
-    extensionLogFile: string | null | undefined,
-    timeZone: string | null | undefined,
-    timeFormat: string | null | undefined,
-    languaje: string | null | undefined,
-    centerColumns: number | null | undefined,
-    createDirIfNotExists: boolean,
-    fileNameSuffix: string | null | undefined,
-    operationId: string | null | undefined,
+    writeToFile?: writeToFileOptions,
+    timeZone?: string,
+    timeFormat?: string,
+    languaje?: string,
+    centerColumns?: number,
+    createDirIfNotExists?: boolean,
+    operationId?: string,
 }
 
 export enum LColor {
@@ -26,19 +32,25 @@ export enum LColor {
     c_default = '\x1b[0m'
 }
 
+export function spacer(length?:number){
+    return '-'.repeat(length||52);
+}
 
 export class Logger {
 
     defaultOptions: LoggerOptions = {
-        writeToFile: false,
-        dirLogs: '/logs',
-        extensionLogFile: 'txt',
+        writeToFile: {
+            enabled: false,
+            preserveColors: true,
+            fileName: 'log',
+            fileExtension: 'txt',
+            directory: '/logs',
+        },
         timeZone: 'America/Mexico_City',
         timeFormat: null,
         languaje: 'es',
         centerColumns: 50,
         createDirIfNotExists: true,
-        fileNameSuffix: '',
         operationId: null,
     };
     options: LoggerOptions = {} as LoggerOptions;
@@ -49,6 +61,11 @@ export class Logger {
             ...this.defaultOptions,
             ...options
         };
+
+        this.options.writeToFile = {
+            ...this.defaultOptions.writeToFile,
+            ...this.options.writeToFile
+        }
 
         moment.locale(this.options.languaje.toLowerCase());
     }
@@ -99,16 +116,27 @@ export class Logger {
         this.writeToFile(text);
     }
 
+    cleanLog(text: string){
+        let reg = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
+        return text.replace(reg, '');
+    }
+
     writeToFile(text: string) {
-        if (!this.options.writeToFile) return;
+        if (!this.options.writeToFile.enabled) return;
         let logStr = text + '\n';
+        if(!this.options.writeToFile.preserveColors){
+            logStr = this.cleanLog(text) + '\n';
+        }
 
-        let fileName = moment().format('YYYY-MM-DD') + this.options.fileNameSuffix + '.' + this.options.extensionLogFile
+        // let fileName = moment().format('YYYY-MM-DD') + this.options.fileName + '.' + this.options.extensionLogFile
+        let fileName = this.options.writeToFile.fileName + '.' + this.options.writeToFile.fileExtension;
 
-        if (!fs.existsSync(this.options.dirLogs)) {
+        let dirlogs = this.options.writeToFile.directory.replace('%date%', moment().format('YYYY-MM-DD'));
+
+        if (!fs.existsSync(dirlogs)) {
             if (this.options.createDirIfNotExists) {
                 try {
-                    fs.mkdirSync(this.options.dirLogs);
+                    fs.mkdirSync(dirlogs, { recursive: true });
                 } catch (e) {
                     console.error("Error creating logs directory");
                     console.error(e);
@@ -117,7 +145,7 @@ export class Logger {
             }
         }
 
-        let fdir = this.options.dirLogs + '/' + fileName;
+        let fdir = dirlogs + '/' + fileName;
         fs.appendFileSync(fdir, logStr);
     }
 
