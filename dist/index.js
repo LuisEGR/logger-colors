@@ -28,22 +28,30 @@ var LColor;
     LColor["c_white"] = "\u001B[37m";
     LColor["c_default"] = "\u001B[0m";
 })(LColor = exports.LColor || (exports.LColor = {}));
+function spacer(length) {
+    return '-'.repeat(length || 52);
+}
+exports.spacer = spacer;
 var Logger = /** @class */ (function () {
     function Logger(options) {
         this.defaultOptions = {
-            writeToFile: false,
-            dirLogs: '/logs',
-            extensionLogFile: 'txt',
+            writeToFile: {
+                enabled: false,
+                preserveColors: true,
+                fileName: 'log',
+                fileExtension: 'txt',
+                directory: '/logs',
+            },
             timeZone: 'America/Mexico_City',
             timeFormat: null,
             languaje: 'es',
             centerColumns: 50,
             createDirIfNotExists: true,
-            fileNameSuffix: '',
             operationId: null,
         };
         this.options = {};
         this.options = __assign({}, this.defaultOptions, options);
+        this.options.writeToFile = __assign({}, this.defaultOptions.writeToFile, this.options.writeToFile);
         moment_timezone_1.default.locale(this.options.languaje.toLowerCase());
     }
     Logger.prototype.info = function (text, _center) {
@@ -83,15 +91,24 @@ var Logger = /** @class */ (function () {
         }
         this.writeToFile(text);
     };
+    Logger.prototype.cleanLog = function (text) {
+        var reg = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
+        return text.replace(reg, '');
+    };
     Logger.prototype.writeToFile = function (text) {
-        if (!this.options.writeToFile)
+        if (!this.options.writeToFile.enabled)
             return;
         var logStr = text + '\n';
-        var fileName = moment_timezone_1.default().format('YYYY-MM-DD') + this.options.fileNameSuffix + '.' + this.options.extensionLogFile;
-        if (!fs_1.default.existsSync(this.options.dirLogs)) {
+        if (!this.options.writeToFile.preserveColors) {
+            logStr = this.cleanLog(text) + '\n';
+        }
+        // let fileName = moment().format('YYYY-MM-DD') + this.options.fileName + '.' + this.options.extensionLogFile
+        var fileName = this.options.writeToFile.fileName + '.' + this.options.writeToFile.fileExtension;
+        var dirlogs = this.options.writeToFile.directory.replace('%date%', moment_timezone_1.default().format('YYYY-MM-DD'));
+        if (!fs_1.default.existsSync(dirlogs)) {
             if (this.options.createDirIfNotExists) {
                 try {
-                    fs_1.default.mkdirSync(this.options.dirLogs);
+                    fs_1.default.mkdirSync(dirlogs, { recursive: true });
                 }
                 catch (e) {
                     console.error("Error creating logs directory");
@@ -100,7 +117,7 @@ var Logger = /** @class */ (function () {
                 }
             }
         }
-        var fdir = this.options.dirLogs + '/' + fileName;
+        var fdir = dirlogs + '/' + fileName;
         fs_1.default.appendFileSync(fdir, logStr);
     };
     Logger.prototype.getTime = function () {

@@ -16,11 +16,7 @@
     },
     "devDependencies": {
         "@types/center-align": "^1.0.0",
-        "@types/moment-timezone": "^0.5.12",
         "@types/node": "^12.0.12",
         "typescript": "^3.5.2"
-    },
-    "publishConfig": {
-        "registry": "http://nexus-0.dev.openshift.multivaloresgf.local:8081/repository/npm-hosted/"
     }
 }
