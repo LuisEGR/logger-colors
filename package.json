@@ -1,6 +1,6 @@
 {
     "name": "logger-colors",
-    "version": "1.0.11",
+    "version": "1.1.0",
     "description": "Print logs with color and save them to a file at the same time",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
