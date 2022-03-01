@@ -1,4 +1,4 @@
-![logger-colors](./logo.png)
+![logger-colors](https://github.com/LuisEGR/logger-colors/raw/master/logo.png)
 [![npm version](https://badge.fury.io/js/logger-colors.svg)](https://badge.fury.io/js/logger-colors)
 [![npm licence](https://img.shields.io/npm/l/logger-colors)](https://img.shields.io/npm/l/logger-colors)
 [![npm installs](https://img.shields.io/npm/dt/logger-colors)](https://img.shields.io/npm/dt/logger-colors)
@@ -60,7 +60,7 @@ myLogger.info(
 
 Will become:
 
-![logger-colors demo](./demo.png)
+![logger-colors demo](https://github.com/LuisEGR/logger-colors/raw/master/demo.png)
 
 &nbsp;
 &nbsp;
