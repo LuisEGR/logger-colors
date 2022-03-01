@@ -9,6 +9,19 @@
     },
     "author": "Luis E. Gonzalez R.",
     "license": "MIT",
+    "url": "https://www.npmjs.com/package/logger-colors",
+    "keywords": [
+        "logger",
+        "log",
+        "logs",
+        "logger-colors",
+        "logger-colors-ts",
+        "logger-colors-typescript",
+        "logger-colors-typescript-node",
+        "logger-colors-node",
+        "logger-colors-node-ts",
+        "console.log",
+    ],
     "dependencies": {
         "center-align": "^1.0.1",
         "moment-timezone": "^0.5.25"
