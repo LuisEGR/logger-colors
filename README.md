@@ -1,5 +1,8 @@
-![logger-colors](logo.png)
-
+![logger-colors](./logo.png)
+[![npm version](https://badge.fury.io/js/logger-colors.svg)](https://badge.fury.io/js/logger-colors)
+[![npm licence](https://img.shields.io/npm/l/logger-colors)](https://img.shields.io/npm/l/logger-colors)
+[![npm installs](https://img.shields.io/npm/dt/logger-colors)](https://img.shields.io/npm/dt/logger-colors)
+![npm bundle size](https://img.shields.io/bundlephobia/min/logger-colors)  
 
 Utilities for printing and writing logs for Node.Js
 
@@ -57,7 +60,7 @@ myLogger.info(
 
 Will become:
 
-![logger-colors demo](demo.png)
+![logger-colors demo](./demo.png)
 
 &nbsp;
 &nbsp;
