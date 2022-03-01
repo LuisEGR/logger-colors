@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Logger = exports.spacer = exports.LColor = void 0;
 var moment_timezone_1 = __importDefault(require("moment-timezone"));
 var center_align_1 = __importDefault(require("center-align"));
 var fs_1 = __importDefault(require("fs"));
@@ -41,17 +42,17 @@ var Logger = /** @class */ (function () {
                 fileName: 'log',
                 fileExtension: 'txt',
                 directory: '/logs',
+                createDirIfNotExists: true,
             },
             timeZone: 'America/Mexico_City',
             timeFormat: null,
             languaje: 'es',
             centerColumns: 50,
-            createDirIfNotExists: true,
             operationId: null,
         };
         this.options = {};
-        this.options = __assign({}, this.defaultOptions, options);
-        this.options.writeToFile = __assign({}, this.defaultOptions.writeToFile, this.options.writeToFile);
+        this.options = __assign(__assign({}, this.defaultOptions), options);
+        this.options.writeToFile = __assign(__assign({}, this.defaultOptions.writeToFile), this.options.writeToFile);
         moment_timezone_1.default.locale(this.options.languaje.toLowerCase());
     }
     Logger.prototype.info = function (text, _center) {
@@ -106,7 +107,7 @@ var Logger = /** @class */ (function () {
         var fileName = this.options.writeToFile.fileName + '.' + this.options.writeToFile.fileExtension;
         var dirlogs = this.options.writeToFile.directory.replace('%date%', moment_timezone_1.default().format('YYYY-MM-DD'));
         if (!fs_1.default.existsSync(dirlogs)) {
-            if (this.options.createDirIfNotExists) {
+            if (this.options.writeToFile.createDirIfNotExists) {
                 try {
                     fs_1.default.mkdirSync(dirlogs, { recursive: true });
                 }

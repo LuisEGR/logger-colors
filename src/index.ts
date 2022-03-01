@@ -3,21 +3,21 @@ import center from 'center-align';
 import fs from 'fs';
 
 
-interface writeToFileOptions {
+interface WriteToFileOptions {
     enabled:boolean,
     preserveColors?:boolean,
     fileName: string,
     fileExtension?: string,
     directory?: string,
+    createDirIfNotExists?: boolean,
 }
 
 export interface LoggerOptions {
-    writeToFile?: writeToFileOptions,
+    writeToFile?: WriteToFileOptions,
     timeZone?: string,
     timeFormat?: string,
     languaje?: string,
     centerColumns?: number,
-    createDirIfNotExists?: boolean,
     operationId?: string,
 }
 
@@ -38,19 +38,19 @@ export function spacer(length?:number){
 
 export class Logger {
 
-    defaultOptions: LoggerOptions = {
+    private defaultOptions: LoggerOptions = {
         writeToFile: {
             enabled: false,
             preserveColors: true,
             fileName: 'log',
             fileExtension: 'txt',
             directory: '/logs',
+            createDirIfNotExists: true,
         },
         timeZone: 'America/Mexico_City',
         timeFormat: null,
         languaje: 'es',
         centerColumns: 50,
-        createDirIfNotExists: true,
         operationId: null,
     };
     options: LoggerOptions = {} as LoggerOptions;
@@ -70,32 +70,32 @@ export class Logger {
         moment.locale(this.options.languaje.toLowerCase());
     }
 
-    info(text: string, _center?: boolean) {
+    public info(text: string, _center?: boolean) {
         this.write(this.createLog(LColor.c_gray, text, _center));
     }
 
-    error(text: string, _center?: boolean) {
+    public error(text: string, _center?: boolean) {
         this.write(this.createLog(LColor.c_red, text, _center));
     }
 
-    success(text: string, _center?: boolean) {
+    public success(text: string, _center?: boolean) {
         this.write(this.createLog(LColor.c_green, text, _center));
     }
 
-    warn(text: string, _center?: boolean) {
+    public warn(text: string, _center?: boolean) {
         this.write(this.createLog(LColor.c_yellow, text, _center));
     }
 
-    cyan(text: string, _center?: boolean) {
+    public cyan(text: string, _center?: boolean) {
         this.write(this.createLog(LColor.c_cyan, text, _center));
     }
 
-    magenta(text: string, _center?: boolean) {
+    public magenta(text: string, _center?: boolean) {
         this.write(this.createLog(LColor.c_magenta, text, _center));
     }
 
 
-    createLog(color: LColor, text: string, _center?: boolean) {
+    private createLog(color: LColor, text: string, _center?: boolean) {
         let t = ' ' + text;
         if (_center) {
             t = center(text, this.options.centerColumns);
@@ -109,19 +109,19 @@ export class Logger {
         ].join('');
     }
 
-    write(text: string) {
+    private write(text: string) {
         if (!process.env.HIDE_LOGS) {
             console.log.apply(console, [text]);
         }
         this.writeToFile(text);
     }
 
-    cleanLog(text: string){
+    private cleanLog(text: string){
         let reg = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
         return text.replace(reg, '');
     }
 
-    writeToFile(text: string) {
+    private writeToFile(text: string) {
         if (!this.options.writeToFile.enabled) return;
         let logStr = text + '\n';
         if(!this.options.writeToFile.preserveColors){
@@ -134,7 +134,7 @@ export class Logger {
         let dirlogs = this.options.writeToFile.directory.replace('%date%', moment().format('YYYY-MM-DD'));
 
         if (!fs.existsSync(dirlogs)) {
-            if (this.options.createDirIfNotExists) {
+            if (this.options.writeToFile.createDirIfNotExists) {
                 try {
                     fs.mkdirSync(dirlogs, { recursive: true });
                 } catch (e) {
@@ -149,7 +149,7 @@ export class Logger {
         fs.appendFileSync(fdir, logStr);
     }
 
-    getTime() {
+    private getTime() {
         let f = this.options.timeFormat || 'DD-MM-YYYY HH:mm:ss.SSS';
         let tz = this.options.timeZone || 'America/Mexico_City';
         let m = moment().tz(tz)
@@ -157,7 +157,7 @@ export class Logger {
             .format(f) + ']' + LColor.c_default;
     }
 
-    getOperationId() {
+    private getOperationId() {
         if (this.options.operationId) {
             return LColor.c_gray + '[' + this.options.operationId + ']' + LColor.c_default;
         } else {

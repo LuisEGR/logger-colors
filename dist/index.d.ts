@@ -1,17 +1,17 @@
-interface writeToFileOptions {
+interface WriteToFileOptions {
     enabled: boolean;
     preserveColors?: boolean;
     fileName: string;
     fileExtension?: string;
     directory?: string;
+    createDirIfNotExists?: boolean;
 }
 export interface LoggerOptions {
-    writeToFile?: writeToFileOptions;
+    writeToFile?: WriteToFileOptions;
     timeZone?: string;
     timeFormat?: string;
     languaje?: string;
     centerColumns?: number;
-    createDirIfNotExists?: boolean;
     operationId?: string;
 }
 export declare enum LColor {
@@ -26,7 +26,7 @@ export declare enum LColor {
 }
 export declare function spacer(length?: number): string;
 export declare class Logger {
-    defaultOptions: LoggerOptions;
+    private defaultOptions;
     options: LoggerOptions;
     constructor(options?: LoggerOptions);
     info(text: string, _center?: boolean): void;
@@ -35,11 +35,11 @@ export declare class Logger {
     warn(text: string, _center?: boolean): void;
     cyan(text: string, _center?: boolean): void;
     magenta(text: string, _center?: boolean): void;
-    createLog(color: LColor, text: string, _center?: boolean): string;
-    write(text: string): void;
-    cleanLog(text: string): string;
-    writeToFile(text: string): void;
-    getTime(): string;
-    getOperationId(): string;
+    private createLog;
+    private write;
+    private cleanLog;
+    private writeToFile;
+    private getTime;
+    private getOperationId;
 }
 export {};
